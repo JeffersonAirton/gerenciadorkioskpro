@@ -1,0 +1,8 @@
+{
+  "name": "KioskPro Manager",
+  "description": "Uma solução de modo quiosque profissional para tablets, permitindo gerenciar aplicativos disponíveis e restringir acesso a configurações via senha.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
