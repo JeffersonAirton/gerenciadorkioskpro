@@ -1,35 +1,20 @@
-# Kiosk Launcher
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+</div>
 
-Kiosk Launcher is an Android app that allows you to turn any Android device into a kiosk mode device. It locks down the device to a single app or a set of apps and prevents users from accessing any other features or settings.
+# Run and deploy your AI Studio app
 
-## Features
+This contains everything you need to run your app locally.
 
-- Set a single app or multiple apps as kiosk mode apps
-- Enable or disable the status bar, navigation bar, and notification access
-- Set a password to exit kiosk mode or access device settings
-- Schedule kiosk mode to start and stop at specific times
-- Restart the device automatically at a specific time
-- Support for portrait and landscape orientations
-- Support for Android 4.4 and above
+View your app in AI Studio: https://ai.studio/apps/drive/1-em7NYoahYpfuHIchOuweG12mR8kNJxe
 
-## Usage
-To exit kiosk mode, follow these steps:
+## Run Locally
 
-1. Tap on the exit button on the top right corner of the home screen.
-2. Enter your password and tap on OK.
-3. Tap on the stop button to deactivate kiosk mode.
+**Prerequisites:**  Node.js
 
-## Article
 
-If you want to learn more about the technical details and the design process of this project, you can read my article on Medium:
-
-https://medium.com/@osamaalek/how-to-build-a-kiosk-launcher-for-android-part-1-beb54476da56
-https://medium.com/@osamaalek/how-to-build-a-kiosk-launcher-for-android-part-2-9a529f503c11
-
-## License
-
-Kiosk Launcher is licensed under the Apache License 2.0. See [LICENSE](https://github.com/osamaalek/Kiosk-Launcher/blob/master/LICENSE) for more details.
-
-## Contact
-
-If you have any questions, feedback, or suggestions, feel free to contact me at osamaalek@gmail.com or open an issue on GitHub.
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`

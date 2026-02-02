@@ -11,7 +11,11 @@ import {
   LayoutDashboard, 
   Lock, 
   Info,
-  ChevronRight
+  ChevronRight,
+  Download,
+  Globe,
+  CheckCircle2,
+  ExternalLink
 } from 'lucide-react';
 import { KioskApp, KioskConfig } from '../types';
 import { getIcon } from '../constants';
@@ -31,7 +35,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
   onEnterKiosk,
   onUpdateTabletName 
 }) => {
-  const [activeTab, setActiveTab] = useState<'apps' | 'settings' | 'info'>('apps');
+  const [activeTab, setActiveTab] = useState<'apps' | 'settings' | 'deploy' | 'info'>('apps');
 
   return (
     <div className="h-full flex bg-slate-100 text-slate-900 overflow-hidden">
@@ -63,6 +67,13 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
             <span className="font-semibold">Configurações</span>
           </button>
           <button 
+            onClick={() => setActiveTab('deploy')}
+            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${activeTab === 'deploy' ? 'bg-amber-600 text-white shadow-lg shadow-amber-600/20' : 'text-slate-400 hover:bg-white/5 hover:text-white'}`}
+          >
+            <Download className="w-5 h-5" />
+            <span className="font-semibold">Gerar APK</span>
+          </button>
+          <button 
             onClick={() => setActiveTab('info')}
             className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${activeTab === 'info' ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' : 'text-slate-400 hover:bg-white/5 hover:text-white'}`}
           >
@@ -89,15 +100,10 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
             <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">
               {activeTab === 'apps' && "Gerenciar Aplicativos"}
               {activeTab === 'settings' && "Configurações do Dispositivo"}
+              {activeTab === 'deploy' && "Transformar em APK"}
               {activeTab === 'info' && "Sobre o Sistema"}
             </h2>
             <p className="text-slate-500 mt-1">Status: Conectado • {config.tabletName}</p>
-          </div>
-          <div className="flex space-x-3">
-             <div className="bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-bold flex items-center space-x-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                <span>Dispositivo Online</span>
-             </div>
           </div>
         </header>
 
@@ -164,18 +170,77 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
                 </button>
               </div>
             </div>
+          </div>
+        )}
 
-            <div className="bg-red-50 p-8 rounded-3xl border border-red-100 shadow-sm">
-              <h3 className="text-xl font-bold text-red-700 mb-4">Área Crítica</h3>
-              <div className="flex space-x-4">
-                <button className="flex-1 bg-red-600 text-white font-bold py-4 rounded-2xl hover:bg-red-700 transition-all flex items-center justify-center space-x-2">
-                  <Trash2 className="w-5 h-5" />
-                  <span>Limpar Dados</span>
-                </button>
-                <button className="flex-1 bg-white border border-red-200 text-red-600 font-bold py-4 rounded-2xl hover:bg-red-50 transition-all">
-                  Resetar Fábrica
-                </button>
+        {activeTab === 'deploy' && (
+          <div className="max-w-4xl space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="bg-amber-50 border border-amber-200 p-8 rounded-3xl">
+              <h3 className="text-xl font-bold text-amber-800 mb-4 flex items-center space-x-2">
+                <Globe className="w-6 h-6" />
+                <span>Passo 1: Hospede seu App Online</span>
+              </h3>
+              <p className="text-amber-700 leading-relaxed mb-6">
+                Para gerar um APK, seu aplicativo precisa estar acessível por uma URL pública HTTPS. 
+                Sugerimos usar o <strong>Vercel</strong>, <strong>Netlify</strong> ou <strong>GitHub Pages</strong>.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <a href="https://vercel.com" target="_blank" className="bg-white px-4 py-2 rounded-xl border border-amber-200 text-amber-800 text-sm font-bold flex items-center space-x-2 hover:bg-amber-100 transition-all">
+                  <span>Hospedar na Vercel</span>
+                  <ExternalLink className="w-4 h-4" />
+                </a>
               </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                <div className="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600">
+                  <Download className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold">Passo 2: PWABuilder</h3>
+                <p className="text-slate-500 text-sm leading-relaxed">
+                  Acesse o <strong>PWABuilder.com</strong>, cole a URL do seu app hospedado e clique em "Start". 
+                  Depois, selecione "Android" e baixe o pacote.
+                </p>
+                <a href="https://www.pwabuilder.com" target="_blank" className="inline-block w-full text-center bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-all">
+                  Abrir PWABuilder
+                </a>
+              </div>
+
+              <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                <div className="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center text-green-600">
+                  <CheckCircle2 className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold">Passo 3: Instalar APK</h3>
+                <p className="text-slate-500 text-sm leading-relaxed">
+                  Transfira o arquivo .apk para seu tablet, abra o gerenciador de arquivos e execute-o. 
+                  Lembre-se de autorizar "Fontes Desconhecidas".
+                </p>
+                <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 text-[10px] font-mono text-slate-400">
+                  Dica: Use o Google Drive para transferir o arquivo rapidamente.
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-slate-900 text-white p-8 rounded-3xl shadow-xl">
+              <h3 className="text-lg font-bold mb-4 flex items-center space-x-2">
+                <ShieldCheck className="w-5 h-5 text-green-400" />
+                <span>Pronto para PWA</span>
+              </h3>
+              <ul className="space-y-3">
+                <li className="flex items-center space-x-3 text-sm text-slate-300">
+                  <CheckCircle2 className="w-4 h-4 text-green-500" />
+                  <span>Manifesto JSON configurado</span>
+                </li>
+                <li className="flex items-center space-x-3 text-sm text-slate-300">
+                  <CheckCircle2 className="w-4 h-4 text-green-500" />
+                  <span>Meta tags de tela cheia incluídas</span>
+                </li>
+                <li className="flex items-center space-x-3 text-sm text-slate-300">
+                  <CheckCircle2 className="w-4 h-4 text-green-500" />
+                  <span>Ícones de alta resolução definidos</span>
+                </li>
+              </ul>
             </div>
           </div>
         )}
